@@ -176,7 +176,7 @@ def decrypter(previous_data):
 
 def get_master_password():
     if not os.path.exists("master_password.txt"):
-        print("Welcome set a master_password")
+        print("Welcome set a master_password: ")
         initial_master_password = input("Enter the master password")
         confirm_second = input("Enter again to confirm: ")
         if initial_master_password == confirm_second:
