@@ -17,9 +17,9 @@ from cryptography.fernet import Fernet
    
 
 def info_collector():
-    service_1= encrypter(input("What is the name of the service: ")).decode()
-    username_1= encrypter(input("What is the username you are using: ")).decode()
-    password_1= encrypter(input("What password are you setting: ")).decode()
+    service_1= encrypter(input("What is the name of the service: ").strip()).decode()
+    username_1= encrypter(input("What is the username you are using: ").strip()).decode()
+    password_1= encrypter(input("What password are you setting: ").strip()).decode()
 
     passwords_d = {
         "service":service_1,
@@ -35,6 +35,9 @@ def info_writer():
         writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
         writer.writerow(info_collector())
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def info_reader():
     with open('passwords.csv','r') as csvfile:
@@ -43,37 +46,40 @@ def info_reader():
 
 
         while True:
-            mode_1 = input("What would you like to search for(service/username/exit): ").lower()         
+            mode_1 = input("What would you like to search for(service/username/exit): ").lower().strip()
             
-
-
             if mode_1 == "service":
-                service_2 = input("What service: ").lower()
+                service_2 = input("What service: ").lower().strip()
                 found = False
                 
                 for row in data_list:
-                    if decrypter(row['service']).lower() == service_2:
-                        print(f"{decrypter(row['service'])}, {decrypter(row['username'])} , {decrypter(row['password'])}")
+                    if decrypter(row['service']) == service_2:
                         found = True
+                        if found:
+                            print(f"Service: {decrypter(row['service'])}, User: {decrypter(row['username'])}, Password: {decrypter(row['password'])}")
+                            input("\nPress Enter to hide this sensitive info...")
+                            clear_screen()
                 
                 if not found:
+                    print(decrypter(row['service']).lower())
                     print("No such service found try agian or try listing")
             
             
             elif mode_1 == "username":
-                username_2 = input("What username: ")
+                username_2 = input("What username: ").strip()
                 found = False
 
 
                 for row in data_list:
                     if decrypter(row['username'])== username_2:
-                        print(f"{decrypter(row['service'])}, {decrypter(row['username'])} , {decrypter(row['password'])}")
                         found = True
+                        if found:
+                            print(f"Service: {decrypter(row['service'])}, User: {decrypter(row['username'])}, Password: {decrypter(row['password'])}")
+                            input("\nPress Enter to hide this sensitive info...")
+                            clear_screen()
                 
                 if not found:
                     print("No such username found try agian or try listing")
-            
-            
             
             elif mode_1 == "exit":
                 return False
