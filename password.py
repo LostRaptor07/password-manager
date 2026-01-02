@@ -2,6 +2,7 @@ import csv
 
 import hashlib
 
+import getpass
 
 import os
 if not os.path.exists('passwords.csv'):
@@ -177,8 +178,8 @@ def decrypter(previous_data):
 def get_master_password():
     if not os.path.exists("master_password.txt"):
         print("Welcome set a master_password: ")
-        initial_master_password = input("Enter the master password")
-        confirm_second = input("Enter again to confirm: ")
+        initial_master_password = getpass.getpass("Enter the master password")
+        confirm_second = getpass.getpass("Enter again to confirm: ")
         if initial_master_password == confirm_second:
             set_master_password(confirm_second)
             master_password_1 = confirm_second
@@ -187,7 +188,7 @@ def get_master_password():
             print("your password didn't match, restarting ... ")
             return get_master_password()
     else :
-        master_password_1 = input("Enter Master Password: ")
+        master_password_1 = getpass.getpass("Enter Master Password: ")
         hashed_password_1 = hasher(master_password_1)
         with open('master_password.txt','r') as f:
             stored_hash = f.read().strip()
