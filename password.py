@@ -146,6 +146,7 @@ def get_salt():
     with open('salt.bin', 'wb') as f:
         f.write(salt)
 
+
 def fernet_key():
     if not os.path.exists('salt.bin'):
         get_salt()
